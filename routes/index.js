@@ -9,4 +9,9 @@ router.use('/datawajah', datawajahRouter)
 router.use('/device', datadeviceRouter)
 router.use('/user', authRouter)
 router.use('/admin', adminRouter)
+
+router.get('/', (req, res) => {
+    res.send('Hello World')
+})
+
 module.exports = router

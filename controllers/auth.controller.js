@@ -67,14 +67,14 @@ module.exports = {
             await models.UserDetail.create({
                 userId: temp.id
             })
-        
+
 
             const userfind = await models.User.findOne({ where: { email: req.body.email } })
             const mailOptions = {
                 from: process.env.EMAIL,
                 to: data.email,
                 subject: "Email Verification",
-                text: `This Link Valid For 2 MINUTES http://localhost:3001/user/aktivasiAkun/${userfind.id}`
+                text: `This Link Valid For 2 MINUTES ${process.env.CLIENT_URL}/user/aktivasiAkun/${userfind.id}`
             }
             const transporter = nodemailer.createTransport({
                 service: "gmail",
@@ -82,7 +82,7 @@ module.exports = {
                 port: 587,
                 secure: false, // true for 587, false for other ports
                 requireTLS: true,
-                auth: { 
+                auth: {
                     user: process.env.EMAIL,
                     pass: process.env.PASSWORD
                 }
@@ -197,7 +197,7 @@ module.exports = {
                     from: process.env.EMAIL,
                     to: email,
                     subject: "Sending Email For password Reset",
-                    text: `This Link Valid For 2 MINUTES http://localhost:3001/user/resetpassword/${userfind.id}/${userfind.resetpasswordLink}`
+                    text: `This Link Valid For 2 MINUTES ${process.env.CLIENT_URL}/user/resetpassword/${userfind.id}/${userfind.resetpasswordLink}`
                 }
                 const transporter = nodemailer.createTransport({
                     service: "gmail",

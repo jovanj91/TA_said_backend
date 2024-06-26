@@ -20,8 +20,8 @@ app.use('/assets',express.static(path.join(__dirname, "assets")));
 app.use(router);
 
 const options = {
-  key: fs.readFileSync(path.join('/etc/letsencrypt/live/notolali.xyz/fullchain.pem')),
-  cert: fs.readFileSync(path.join('/etc/letsencrypt/live/notolali.xyz/privkey.pem'))
+  key: fs.readFileSync(path.join('/etc/letsencrypt/live/notolali.xyz/privkey.pem')),
+  cert: fs.readFileSync(path.join('/etc/letsencrypt/live/notolali.xyz/fullchain.pem'))
 };
 
 

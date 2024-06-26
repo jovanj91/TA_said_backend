@@ -68,9 +68,10 @@ async function lihatdatawajah(req, res) {
 
             }
             ], where: {
-                userId: iduserDetail.id
+                userId: iduserDetail.userId
             }
         });
+        console.log(getdatawajah)
         // console.log(getdatawajah);
         if (getdatawajah) {
             res.status(200).json({ message: "show data wajah", data: getdatawajah })

@@ -17,10 +17,10 @@ app.use('/assets',express.static(path.join(__dirname, "assets")));
 // var certificate = fs.readFileSync( 'certificate.pem' );
 app.use(router);
 
-https.createServer({
-    key: privateKey,
-    cert: certificate
-}, app).listen(port);
+// https.createServer({
+//     key: privateKey,
+//     cert: certificate
+// }, app).listen(port);
 
 app.listen(process.env.PORT || port, () => {
   console.log("Server running on port", port)

@@ -34,7 +34,7 @@ async function kirimdatawajah(req, res) {
         const iduserDetail = await models.datawajah.findOne({ where: { userId: verified.id } })
         const updatedatawajah = await models.fotowajah.create({
             base64: req.body.base64,
-            userId: iduserDetail.userId
+            userId: iduserDetail.id
         });
         if (updatedatawajah) {
             res.status(200).json({ message: "create data wajah" })
@@ -52,7 +52,7 @@ async function kirimdatawajah(req, res) {
 }
 async function lihatdatawajah(req, res) {
     const verified = req.verified
-   
+
     if (verified.role === false) {
         // let finalimageurl = req.protocol + "://" + req.get("host") + "/assets/" + req.file.filename;
         // const kirimwajah = await models.datawajah.create({
@@ -61,14 +61,14 @@ async function lihatdatawajah(req, res) {
         //     base64: new Buffer(fs.readFileSync(req.file.path)).toString("base64")
         // })
         const iduserDetail = await models.datawajah.findOne({ where: { userId: verified.id } })
-       
+
         const getdatawajah = await models.datawajah.findAll({
             include: [{
                 model: models.fotowajah,
-                
+
             }
             ], where: {
-                userId: iduserDetail.userId
+                userId: iduserDetail.id
             }
         });
         // console.log(getdatawajah);
@@ -96,7 +96,7 @@ async function hasilpredict(req, res) {
             let hasil = "";
             let aslisuhu = "";
             const iduserDetails = await models.UserDetail.findOne({ where: { userId: verified.id } })
-          
+
             const faces = await models.datawajah.findAll({
                 include: [{
                     model: models.fotowajah,
@@ -123,7 +123,7 @@ async function hasilpredict(req, res) {
             })
 
             const data = datas[0]
-        
+
             const tempip = await models.pilihdevice.findAll({
                 include: [{
                     model: models.device,
@@ -136,7 +136,7 @@ async function hasilpredict(req, res) {
                     id_user: verified.id,
                 }
             })
-         
+
 
             const suhu = await axios.get(`http://${tempip[0].device.ip}/temp`, {
                 method: 'GET'
@@ -183,9 +183,9 @@ async function hasilpredict(req, res) {
 
                 let users = await models.User.findOne({ where: { id: verified.id } })
                 let usersdetail = await models.UserDetail.findOne({ where: { id: verified.id } })
-                
+
                 let datapengunjungs = await models.datapengunjung.findOne({ where: { nama: data.label } })
-               
+
                 const mailOptions = {
                     from: process.env.EMAIL,
                     to: users.email,
@@ -201,10 +201,10 @@ async function hasilpredict(req, res) {
                 })
                 transporter.sendMail(mailOptions, (error, info) => {
                     if (error) {
-                 
+
                         res.status(401).json({ status: 401, message: "email not send" })
                     } else {
-                     
+
                         res.status(200).json({ status: 200, message: "Email sent Successfully" })
                     }
                 })
@@ -217,13 +217,13 @@ async function hasilpredict(req, res) {
                 //res.status(200).json({ status: 200, data: datapengunjung, newface, message: "Data Wajah User Valid" })
                 // if (datapengunjung) {
                     res.status(201).json({ status: 201, data: datapengunjung, message: 'User Boleh Masuk Ruangan' })
-                // } 
+                // }
             // } else if(data.label == iduserDetails.namalengkap && data.predict <= 0.90){
             //     var datetime = new Date().getTime()
             //     const iduserDetail = await models.UserDetail.findOne({ where: { userId: verified.id } })
             //     let datapengunjungs = await models.datapengunjung.create({ nama: data.label, akurasi: data.predict.toString(), picture: req.body.base64, waktu: datetime, userId: iduserDetail.id, statusUser: "Pengunjung Tidak Terdaftar" })
             //     res.status(400).json({ status: 400, data: datapengunjungs, message: 'User Tidak Boleh Masuk Ruangan' })
-            // } 
+            // }
             }else {
                 res.status(400).json({ status: 400, message: "Mohon Maaf Anda Tidak dibolehkan Masuk Ruangan" })
                 say.speak("Do Not Enter Room Your face is not registered in the system", 'Alex')
@@ -269,7 +269,7 @@ async function hasilpredict1(req, res) {
             let hasil = "";
             let aslisuhu = "";
             const iduserDetails = await models.UserDetail.findOne({ where: { userId: verified.id } })
-        
+
             const faces = await models.datawajah.findAll({
                 include: [{
                     model: models.fotowajah,
@@ -283,7 +283,7 @@ async function hasilpredict1(req, res) {
                     labels.push(faces1.nama)
                 });
             }));
-            
+
             result = await axios.post('/multi-predict', {
                 method: 'POST',
                 query: req.body.base64,
@@ -310,7 +310,7 @@ async function hasilpredict1(req, res) {
                 return b.predict - a.predict
             })
 
-        
+
             const data = datas[0]
 
             //if (tempip.ip) {
@@ -385,7 +385,7 @@ async function hasilpredict1(req, res) {
 
 
             } else  {
-               
+
                 say.speak("Do Not Enter Room Your face is not registered in the system", 'Alex')
                 await axios.get(`http://${tempip[0].device.ip}/bunyi/on`, {
                     method: 'GET'
@@ -438,7 +438,7 @@ const getNewObject = (predicts, labels, len) => {
         }
         datas.push(data)
     }
-  
+
     return datas
 }
 
@@ -534,7 +534,7 @@ async function updateprofile(req, res) {
     if (verified.role === false) {
         const data = await req.body
         const iduserDetail = await models.UserDetail.findOne({ where: { userId: verified.id } })
-       
+
         if (iduserDetail.namalengkap == null) {
             const updateprofile = await models.UserDetail.update({
                 namalengkap: data.namalengkap,
@@ -555,7 +555,7 @@ async function updateprofile(req, res) {
 
             const iduserDetail = await models.UserDetail.findOne({ where: { userId: verified.id } })
             await models.datawajah.create({
-                userId: iduserDetail.userId,
+                userId: iduserDetail.id,
                 nama: iduserDetail.namalengkap
             })
             if (updateprofile) {
@@ -605,7 +605,7 @@ async function deletewajah(req, res) {
                 id: id
             }
         });
-   
+
         await models.fotowajah.destroy({
             where: { id: id }
         })

@@ -21,7 +21,7 @@ app.use(router);
 
 const options = {
   key: fs.readFileSync(path.join('/etc/letsencrypt/live/notolali.xyz/fullchain.pem')),
-  cert: fs.readFileSync(path.join('/etc/letsencrypt/live/notolali.xyz/fullchain.pem'))
+  cert: fs.readFileSync(path.join('/etc/letsencrypt/live/notolali.xyz/privkey.pem'))
 };
 
 

@@ -139,7 +139,7 @@ async function hasilpredict(req, res) {
             })
 
 
-            const suhu = await axios.get(`https://notolali.xyz/temp`, {
+            const suhu = await axios.get(`http://${tempip[0].device.ip}/temp`, {
                 method: 'GET'
             });
             const hasilsuhu = parseFloat(suhu.data)
@@ -159,11 +159,11 @@ async function hasilpredict(req, res) {
             if (data.label == iduserDetails.namalengkap && data.predict >= 0.90 && tempip[0].device.ip && aslisuhu <= 36.00) {
                 // if (tempip[0].device.ip && aslisuhu <= 36.00) {
                 say.speak("Welcome, Please Enter The Room", 'Alex')
-                const device1 = await axios.get(`https://notolali.xyz/pintu/on`, {
+                const device1 = await axios.get(`http://${tempip[0].device.ip}/pintu/on`, {
                     method: 'GET'
                 });
                 setTimeout(async function setTimeout() {
-                    await axios.get(`https://notolali.xyz/pintu/off`, {
+                    await axios.get(`http://${tempip[0].device.ip}/pintu/off`, {
                         method: 'GET'
                     });
                 }, 9000);
@@ -228,10 +228,10 @@ async function hasilpredict(req, res) {
             }else {
                 res.status(400).json({ status: 400, message: "Mohon Maaf Anda Tidak dibolehkan Masuk Ruangan" })
                 say.speak("Do Not Enter Room Your face is not registered in the system", 'Alex')
-                const temp = await axios.get(`https://notolali.xyz/bunyi/on`, {
+                const temp = await axios.get(`http://${tempip[0].device.ip}/bunyi/on`, {
                     method: 'GET'
                 });
-                await axios.get(`https://notolali.xyz/pintu/off`, {
+                await axios.get(`http://${tempip[0].device.ip}/pintu/off`, {
                     method: 'GET'
                 });
             }
@@ -315,7 +315,7 @@ async function hasilpredict1(req, res) {
             const data = datas[0]
 
             //if (tempip.ip) {
-            const suhu = await axios.get(`https://notolali.xyz/temp`, {
+            const suhu = await axios.get(`http://${tempip[0].device.ip}/temp`, {
                 method: 'GET'
             });
             // console.log(suhu.data)
@@ -336,11 +336,11 @@ async function hasilpredict1(req, res) {
       console.log(data.predict)
             if (data.label == data.label && data.predict >= 0.90 && aslisuhu <= 36.00) {
                 say.speak("Welcome, Please Enter The Room", 'Alex')
-                await axios.get(`https://notolali.xyz/pintu/on`, {
+                await axios.get(`http://${tempip[0].device.ip}/pintu/on`, {
                     method: 'GET'
                 });
                 setTimeout(async function setTimeout() {
-                    await axios.get(`https://notoalali.xyz/pintu/off`, {
+                    await axios.get(`http://${tempip[0].device.ip}/pintu/off`, {
                         method: 'GET'
                     });
                 }, 500000);
@@ -388,10 +388,10 @@ async function hasilpredict1(req, res) {
             } else  {
 
                 say.speak("Do Not Enter Room Your face is not registered in the system", 'Alex')
-                await axios.get(`https://notolali.xyz/bunyi/on`, {
+                await axios.get(`http://${tempip[0].device.ip}/bunyi/on`, {
                     method: 'GET'
                 });
-                await axios.get(`https://notolali.xyz/pintu/off`, {
+                await axios.get(`http://${tempip[0].device.ip}/pintu/off`, {
                     method: 'GET'
                 });
                 const iduserDetail = await models.UserDetail.findOne({ where: { userId: verified.id } })

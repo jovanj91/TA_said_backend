@@ -20,8 +20,8 @@ app.use('/assets',express.static(path.join(__dirname, "assets")));
 app.use(router);
 
 const options = {
-  key: fs.readFileSync(path.join(__dirname, 'private_key.pem')),
-  cert: fs.readFileSync(path.join(__dirname, 'self_signed_certificate.crt'))
+  key: fs.readFileSync(path.join(__dirname, '/private_key.pem')),
+  cert: fs.readFileSync(path.join(__dirname, '/self_signed_certificate.crt'))
 };
 
 
